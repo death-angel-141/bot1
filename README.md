@@ -1,8 +1,6 @@
 # What is this repo about?
 This is a telegram bot writen in python for mirroring files on the internet to our beloved Google Drive.
 
-# Inspiration 
-This project is heavily inspired from @out386 's telegram bot which is written in JS.
 
 # Features supported:
 - Mirroring direct download links to google drive
