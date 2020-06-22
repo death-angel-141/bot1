@@ -13,18 +13,23 @@ from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clon
 
 
 @run_async
-def stats(bot, update):
+def stats(update, context):
     currentTime = get_readable_time((time.time() - botStartTime))
     total, used, free = shutil.disk_usage('.')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
     free = get_readable_file_size(free)
-    stats = f'Bot Uptime: {currentTime}\n' \
-            f'Total disk space: {total}\n' \
-                        f'Used: {used}\n' \
-                        f'Free: {free}'
-    sendMessage(stats, bot, update)
-
+    cpuUsage = psutil.cpu_percent(interval=0.5)
+    memory = psutil.virtual_memory().percent
+    disk = psutil.disk_usage('/').percent
+    stats = f'<b>Bot Uptime:</b> {currentTime}\n' \
+            f'<b>Total disk space:</b> {total}\n' \
+            f'<b>Used:</b> {used}  ' \
+            f'<b>Free:</b> {free}\n\n' \
+            f'<b>CPU:</b> {cpuUsage}% ' \
+            f'<b>RAM:</b> {memory}% ' \
+            f'<b>Disk:</b> {disk}%'
+    sendMessage(stats, context.bot, update)
 
 
 @run_async
