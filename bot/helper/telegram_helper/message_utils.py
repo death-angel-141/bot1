@@ -61,21 +61,26 @@ def delete_all_messages():
                 del status_reply_dict[message.chat.id]
                 pass
 
-
 def update_all_messages():
     msg = get_readable_message()
+    msg += f"<b>CPU:</b> {psutil.cpu_percent()}%" \
+           f" <b>DISK:</b> {psutil.disk_usage('/').percent}%" \
+           f" <b>RAM:</b> {psutil.virtual_memory().percent}%"
     with status_reply_dict_lock:
         for chat_id in list(status_reply_dict.keys()):
-            if msg != status_reply_dict[chat_id].text:
+            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
                 try:
                     editMessage(msg, status_reply_dict[chat_id])
-                except BadRequest as e:
+                except Exception as e:
                     LOGGER.error(str(e))
                 status_reply_dict[chat_id].text = msg
 
 
 def sendStatusMessage(msg, bot):
     progress = get_readable_message()
+    progress += f"<b>CPU:</b> {psutil.cpu_percent()}%" \
+           f" <b>DISK:</b> {psutil.disk_usage('/').percent}%" \
+           f" <b>RAM:</b> {psutil.virtual_memory().percent}%"
     with status_reply_dict_lock:
         if msg.message.chat.id in list(status_reply_dict.keys()):
             try:
