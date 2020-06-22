@@ -1,5 +1,6 @@
 import shutil
 import signal
+import psutil
 
 from telegram.ext import CommandHandler, run_async
 
