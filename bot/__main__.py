@@ -2,6 +2,10 @@ import shutil
 import signal
 import psutil
 
+from os import execl, path, remove
+from sys import executable
+import time
+
 from telegram.ext import CommandHandler, run_async
 
 from bot import dispatcher, updater, botStartTime
