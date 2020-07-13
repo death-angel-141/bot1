@@ -61,7 +61,10 @@ def get_readable_file_size(size_in_bytes) -> str:
 def getDownloadByGid(gid):
     with download_dict_lock:
         for dl in download_dict.values():
-            if dl.status() == MirrorStatus.STATUS_DOWNLOADING or dl.status() == MirrorStatus.STATUS_WAITING:
+             status = dl.status()
+                
+            if status != MirrorStatus.STATUS_UPLOADING and status != MirrorStatus.STATUS_ARCHIVING\
+                    and status != MirrorStatus.STATUS_EXTRACTING:
                 if dl.gid() == gid:
                     return dl
     return None
